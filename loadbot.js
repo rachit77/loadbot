@@ -61,3 +61,9 @@ async function send(i) {
     }
 
     send(1);
+
+
+
+//./mycelo genesis --buildpath ~/celom-3/celo-monorepo/packages/protocol/build/contracts --newenv ~/celom-3/envfolder --template=local --mnemonic "alien shell toy depth share work clarify tattoo grass tank master board" --validators 1
+
+
