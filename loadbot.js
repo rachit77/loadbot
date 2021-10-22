@@ -12,7 +12,7 @@ async function send(i) {
 
 
             let Dpath="m/44'/52752'/0'/"+i  //derivation path
-            walletMnemonic= alien shell toy depth share work clarify tattoo grass tank master board
+            walletMnemonic= "alien shell toy depth share work clarify tattoo grass tank master board"
             const wallet = ethers.Wallet.fromMnemonic(walletMnemonic,Dpath)
             kit.connection.addAccount(wallet.privateKey)   // added private key in contract kit to sign the transaction
 
@@ -64,6 +64,5 @@ async function send(i) {
 
 
 
-//./mycelo genesis --buildpath ~/celom-3/celo-monorepo/packages/protocol/build/contracts --newenv ~/celom-3/envfolder --template=local --mnemonic "alien shell toy depth share work clarify tattoo grass tank master board" --validators 1
 
 
