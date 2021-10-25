@@ -19,10 +19,11 @@ async function allTrx(h)
     
    
     let goldtoken = await kit.contracts.getGoldToken()
+    let notrx=0;
 
    for(let i=Math.pow(2,h-1); i<=Math.pow(2,h) -1 ;i++)    // parent node loop
    {
-      let notrx=0;
+      
     let Dpath="m/44'/52752'/0'/"+i
     const wallet = ethers.Wallet.fromMnemonic("alien shell toy depth share work clarify tattoo grass tank master board",Dpath)
     kit.connection.addAccount(wallet.privateKey)
