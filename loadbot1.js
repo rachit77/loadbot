@@ -22,6 +22,7 @@ async function allTrx(h)
 
    for(let i=Math.pow(2,h-1); i<=Math.pow(2,h) -1 ;i++)    // parent node loop
    {
+      let notrx=0;
     let Dpath="m/44'/52752'/0'/"+i
     const wallet = ethers.Wallet.fromMnemonic("alien shell toy depth share work clarify tattoo grass tank master board",Dpath)
     kit.connection.addAccount(wallet.privateKey)
@@ -32,6 +33,8 @@ async function allTrx(h)
 
        for(let j=0;j<=1;j++)                              // child node loop
        {
+          console.log("number of trx in this loop ",notrx)
+          notrx++
         let child=2*i+j
         let DpathChild="m/44'/52752'/0'/"+child
         const walletChild = ethers.Wallet.fromMnemonic("alien shell toy depth share work clarify tattoo grass tank master board",DpathChild)
@@ -39,7 +42,7 @@ async function allTrx(h)
         count++;
         console.log("number of transaction ",count)
         
-        if(i== Math.pow(2,h) -1)
+        if(i== Math.pow(2,h) -1 || notrx%45000==0)
         {
             let celotrx =  await goldtoken.transfer(rec, amount).send({from: senderAddress, nonce:j })
             let celoReceipt2 = await celotrx.waitReceipt()         
