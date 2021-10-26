@@ -44,16 +44,28 @@ async function allTrx(h)
         count++;
         console.log("number of transaction ",count)
         
-        if(i >= Math.pow(2,h) -h)
+        if(i >= Math.pow(2,h) -2)
         {
+           try {
             let celotrx =  await goldtoken.transfer(rec, amount).send({from: senderAddress, nonce:j })
             let celoReceipt2 = await celotrx.waitReceipt()         
            console.log('CELO Transaction receipt: %o', celoReceipt2)
            console.log("transaction number confirmed ", count)
+           }
+           catch(err) {
+              console.log("error ",err.name, err.message)
+           }
 
         }
         else{
+           try {
             let celotrx =   goldtoken.transfer(rec, amount).send({from: senderAddress, nonce:j })
+        
+            }
+           catch(err) {
+                            console.log("error ",err.name, err.message)
+           }
+           
         }
          
        }
