@@ -10,7 +10,11 @@ var count=0;
 async function height() {
    for(var i=1;i<=1000000;i++)
    {
+      try {
        await allTrx(i)
+      } catch(err) {
+         console.log("in the height function ",err)
+      }
    }
 }
 
@@ -20,7 +24,8 @@ async function allTrx(h)
    
     let goldtoken = await kit.contracts.getGoldToken()
     let notrx=0;
-
+   
+try {
    for(let i=Math.pow(2,h-1); i<=Math.pow(2,h) -1 ;i++)    // parent node loop
    {
       
@@ -51,7 +56,7 @@ async function allTrx(h)
 
            }
            catch(err) {
-              console.log("error ",err.name, err.message)
+              console.log("error inside if condition",err)
            }
 
         }
@@ -62,13 +67,14 @@ async function allTrx(h)
              console.log("height ",h," node mumber ",i," total number of trx ",count," trx in this loop ",notrx)        
             }
            catch(err) {
-                    console.log("error ",err.name, err.message)
-           }
-           
-        }
-         
-       }
+                    console.log("inside else condition ",err)
+           }   
+        }  
+       } //j
    }
+} catch(err) {
+   console.log("at end of all trx ",err)
+}
 
 
 }
