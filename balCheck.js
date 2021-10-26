@@ -8,8 +8,8 @@ async function send(i) {
     let goldtoken = await kit.contracts.getGoldToken()
 
 Dpath="m/44'/52752'/0'/"+i  //derivation path
-//mnemonic ="alien shell toy depth share work clarify tattoo grass tank master board"
-const wallet = ethers.Wallet.fromMnemonic(alien shell toy depth share work clarify tattoo grass tank master board,Dpath)
+mnemonic ="alien shell toy depth share work clarify tattoo grass tank master board"
+const wallet = ethers.Wallet.fromMnemonic(mnemonic,Dpath)
 
 console.log(wallet.address);
 let celoBalanc = await goldtoken.balanceOf(wallet.address) 
