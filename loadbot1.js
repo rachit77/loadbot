@@ -30,27 +30,25 @@ async function allTrx(h)
     let senderAddress =wallet.address
     let celoBal = await goldtoken.balanceOf(wallet.address)
     let amount= celoBal.idiv(3)
-    console.log("unique address number ",i)
 
        for(let j=0;j<=1;j++)                              // child node loop
        {
-          console.log("height of tree", h)
-          console.log("number of trx in this loop ",notrx)
           notrx++
         let child=2*i+j
         let DpathChild="m/44'/52752'/0'/"+child
         const walletChild = ethers.Wallet.fromMnemonic("alien shell toy depth share work clarify tattoo grass tank master board",DpathChild)
         let rec=walletChild.address
-        count++;
-        console.log("number of transaction ",count)
         
         if(i >= Math.pow(2,h) -2)
         {
            try {
             let celotrx =  await goldtoken.transfer(rec, amount).send({from: senderAddress, nonce:j })
             let celoReceipt2 = await celotrx.waitReceipt()         
-           console.log('CELO Transaction receipt: %o', celoReceipt2)
-           console.log("transaction number confirmed ", count)
+            console.log('CELO Transaction receipt: %o', celoReceipt2)
+            console.log("transaction number confirmed ", count)
+            count++;
+            console.log("height ",h," node mumber ",i," total number of trx ",count," trx in this loop ",notrx)
+
            }
            catch(err) {
               console.log("error ",err.name, err.message)
@@ -60,10 +58,11 @@ async function allTrx(h)
         else{
            try {
             let celotrx =   goldtoken.transfer(rec, amount).send({from: senderAddress, nonce:j })
-        
+                    count++;
+             console.log("height ",h," node mumber ",i," total number of trx ",count," trx in this loop ",notrx)        
             }
            catch(err) {
-                            console.log("error ",err.name, err.message)
+                    console.log("error ",err.name, err.message)
            }
            
         }
