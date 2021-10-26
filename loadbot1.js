@@ -34,6 +34,7 @@ async function allTrx(h)
 
        for(let j=0;j<=1;j++)                              // child node loop
        {
+          console.log("height of tree", h)
           console.log("number of trx in this loop ",notrx)
           notrx++
         let child=2*i+j
