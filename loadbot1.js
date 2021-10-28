@@ -14,6 +14,7 @@ async function height() {
        await allTrx(i)
       } catch(err) {
          console.log("in the height function ",err)
+         continue;
       }
    }
 }
@@ -76,7 +77,6 @@ try {
    }
 } catch(err) {
    console.log("at end of all trx ",err)
-   continue;
 }
 
 
