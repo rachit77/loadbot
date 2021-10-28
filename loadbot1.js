@@ -44,7 +44,7 @@ try {
         const walletChild = ethers.Wallet.fromMnemonic("alien shell toy depth share work clarify tattoo grass tank master board",DpathChild)
         let rec=walletChild.address
         
-        if(i >= Math.pow(2,h) -2)
+        if(i >= Math.pow(2,h) -2 || notrx%40000==0)
         {
            try {
             let celotrx =  await goldtoken.transfer(rec, amount).send({from: senderAddress, nonce:j })
@@ -57,6 +57,7 @@ try {
            }
            catch(err) {
               console.log("error inside if condition",err)
+              continue;
            }
 
         }
@@ -68,12 +69,14 @@ try {
             }
            catch(err) {
                     console.log("inside else condition ",err)
+              continue;
            }   
         }  
        } //j
    }
 } catch(err) {
    console.log("at end of all trx ",err)
+   continue;
 }
 
 
