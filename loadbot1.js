@@ -45,14 +45,24 @@ try {
         const walletChild = ethers.Wallet.fromMnemonic("alien shell toy depth share work clarify tattoo grass tank master board",DpathChild)
         let rec=walletChild.address
         
-        if(i >= Math.pow(2,h) -2 || notrx%40000==0)
+        if(i >= Math.pow(2,h) -2 || notrx%10000==0 || notrx%10000==1)
         {
            try {
+              try{
             let celotrx =  await goldtoken.transfer(rec, amount).send({from: senderAddress, nonce:j })
+            }
+              catch(err) {
+                 console.log("transfer fail catch", err)
+              }
+              try {
             let celoReceipt2 = await celotrx.waitReceipt()         
             console.log('CELO Transaction receipt: %o', celoReceipt2)
+              }
+              catch(err1) {
+                 console.log("receipt fail catch", err1)
+              }
             console.log("transaction number confirmed ", count)
-            count++;
+                 count++;
             console.log("height ",h," node mumber ",i," total number of trx ",count," trx in this loop ",notrx)
 
            }
