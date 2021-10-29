@@ -6,7 +6,11 @@ const ethers = require("ethers");
 
 async function block() {
   let blockDetail= await kit.web3.eth.getBlock("latest")
-  console.log("block number ",blockDetail.number ," gas consumed ",blockDetail.gasUsed)
+ 
+  
+  let pendingTrx =await kit.web3.eth.getPendingTransactions()
+  let numOfPendingTrx= pendingTrx.length()
+   console.log("block number ",blockDetail.number ," gas consumed ",blockDetail.gasUsed," number of pending trx ",numOfPendingTrx)
 }
 
 setInterval(block,5000);
