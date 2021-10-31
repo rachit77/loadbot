@@ -1,0 +1,192 @@
+// same tokens to all childs at same height
+
+package loadbot
+
+import (
+	"context"
+
+	"fmt"
+	"log"
+	"math/big"
+	"sync"
+	"time"
+
+	"github.com/celo-org/celo-blockchain/core/types"
+
+	"github.com/celo-org/celo-blockchain/ethclient"
+	"github.com/celo-org/celo-blockchain/mycelo/env"
+	"golang.org/x/sync/errgroup"
+)
+
+// 110k gas for stable token transfer is pretty reasonable. It's just under 100k in practice
+const GasForTransferWithComment = 110000
+
+var m = "alien shell toy depth share work clarify tattoo grass tank master board"
+
+// LoadGenerator keeps track of in-flight transactions
+type LoadGenerator struct {
+	MaxPending uint64
+	Pending    uint64
+	PendingMu  sync.Mutex
+}
+
+// TxConfig contains the options for a transaction
+// type txConfig struct {
+// 	Acc               env.Account
+// 	Nonce             uint64
+// 	Recipient         common.Address
+// 	Value             *big.Int
+// 	Verbose           bool
+// 	SkipGasEstimation bool
+// 	MixFeeCurrency    bool
+// }
+
+// Config represent the load bot run configuration
+type Config struct {
+	ChainID               *big.Int
+	Accounts              []env.Account
+	Amount                *big.Int
+	TransactionsPerSecond int
+	Clients               []*ethclient.Client
+	Verbose               bool
+	MaxPending            uint64
+	SkipGasEstimation     bool
+	MixFeeCurrency        bool
+}
+
+// Start will start loads bots
+func Start(ctx context.Context, cfg *Config) error {
+
+	sendIdx := 1
+
+	// Fire off transactions
+	period := 1 * time.Second / time.Duration(cfg.TransactionsPerSecond)
+	ticker := time.NewTicker(period)
+	group, ctx := errgroup.WithContext(ctx)
+	lg := &LoadGenerator{
+		MaxPending: cfg.MaxPending,
+	}
+
+	// find balance of first account
+	Firstsender, err := env.DeriveAccount(m, 1, 1)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	Intialsender := *Firstsender
+	Intialbal, err2 := cfg.Clients[0].BalanceAt(ctx, Intialsender.Address, nil)
+	if err2 != nil {
+		return fmt.Errorf("failed to retrieve balance for account")
+	}
+
+	fmt.Printf("initial balance %v \n", Intialbal)
+
+	cont := big.NewInt(100000000000) // constant to reduce gas
+
+	IntialGas := big.NewInt(2000000000000000) //13 zeroes orignally
+
+	for {
+		select {
+		case <-ticker.C:
+			fmt.Printf("before mu %v ", lg.Pending)
+			fmt.Printf("\n")
+
+			lg.PendingMu.Lock()
+			lg.Pending++
+			lg.PendingMu.Unlock()
+
+			fmt.Printf("after mu")
+			fmt.Printf("\n")
+
+			senderpointer, err := env.DeriveAccount(m, 1, sendIdx)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			sender := *senderpointer
+
+			senderBal, err2 := cfg.Clients[0].BalanceAt(ctx, sender.Address, nil)
+			if err2 != nil {
+				return fmt.Errorf("failed to retrieve balance for account")
+			}
+
+			fmt.Printf("sender balance %v \n", senderBal)
+
+			fmt.Printf("sender %v", sender.Address.Hex())
+			fmt.Printf("\n")
+
+			// fmt.Printf("after bal %v", bal)
+			// fmt.Printf("\n")
+
+			nonceAdr, err5 := cfg.Clients[0].PendingNonceAt(ctx, sender.Address)
+			if err5 != nil {
+				return fmt.Errorf("failed to retrieve pending nonce for account  %v", err5)
+			}
+			k := nonceAdr
+
+			fmt.Printf("nonce %v", k)
+			fmt.Printf("\n")
+
+			gasLimit := uint64(21000) // in units
+
+			gasFactor := new(big.Int).Mul(big.NewInt(int64(sendIdx)), cont) // 2*c
+			gasPrice := new(big.Int).Sub(IntialGas, gasFactor)              //gas- 2*c
+
+			fmt.Printf("after gas price %v", gasPrice)
+			fmt.Printf("\n")
+
+			// calculating value
+
+			sendIdx1 := sendIdx - 1
+			FirstFactorGasPrice := new(big.Int).Mul(IntialGas, big.NewInt(21000))            // gas* gasPrice
+			FirstFactor := new(big.Int).Mul(big.NewInt(int64(sendIdx)), FirstFactorGasPrice) //(sendIdx-1)*gas
+
+			// second factor
+			senderSq := new(big.Int).Mul(big.NewInt(int64(sendIdx)), big.NewInt(int64(sendIdx1)))
+			s2 := new(big.Int).Mul(senderSq, cont)
+			s3 := new(big.Int).Mul(s2, big.NewInt(21000))
+			SecondFactor := new(big.Int).Div(s3, big.NewInt(2))
+
+			// value
+			v1 := new(big.Int).Add(Intialbal, SecondFactor)
+			value := new(big.Int).Sub(v1, FirstFactor)
+
+			fmt.Printf("value %v \n", value)
+
+			var data []byte
+
+			recpointer, err1 := env.DeriveAccount(m, 1, sendIdx+1)
+			if err != nil {
+				log.Fatal(err1)
+			}
+			rec := (*recpointer).Address
+
+			tx := types.NewTransaction(k, rec, value, gasLimit, gasPrice, nil, nil, nil, data)
+			//func NewTransaction(nonce uint64, to common.Address, amount *big.Int, gasLimit uint64, gasPrice *big.Int, feeCurrency, gatewayFeeRecipient *common.Address, gatewayFee *big.Int, data []byte) *Transaction {
+
+			signedTx, err := types.SignTx(tx, types.NewEIP155Signer(cfg.ChainID), sender.PrivateKey)
+			if err != nil {
+				log.Fatal(err)
+			}
+			fmt.Printf("after trx signed")
+			fmt.Printf("\n")
+
+			err = cfg.Clients[0].SendTransaction(context.Background(), signedTx)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			fmt.Printf("tx sent: %s", signedTx.Hash().Hex())
+
+			sendIdx++
+			fmt.Printf("increase sendidx")
+			fmt.Printf("\n")
+
+		case <-ctx.Done():
+			fmt.Printf("ctx done")
+			return group.Wait()
+
+		}
+
+	}
+}
