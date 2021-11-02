@@ -23,7 +23,7 @@ async function allTrx(h)
   let first_address = ethers.Wallet.fromMnemonic("alien shell toy depth share work clarify tattoo grass tank master board",first_Dpath)
   kit.connection.addAccount(first_address.privateKey)
   let first_celoBal = await goldtoken.balanceOf(first_address.address)
-  total_nodes = Math.pow(2,h)-1-Math.pow(2,h-1)
+  total_nodes = Math.pow(2,h) - Math.pow(2,h-1)
   transfer_amount = first_celoBal/(10*total_nodes)
   
   let nonc=0
