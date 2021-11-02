@@ -27,6 +27,7 @@ async function allTrx(h)
   transfer_amount = first_celoBal/(10*total_nodes)
   
   let nonc=0
+  let notrx = 0
 
    for(let i=Math.pow(2,h-1)+1; i<=Math.pow(2,h) -1 ;i++)    // parent node loop
    {
@@ -43,7 +44,7 @@ async function allTrx(h)
               console.log("inside catch block of sibling transaction")
             }
             nonc++
-         
+            notrx++
             count++;
             console.log("height ",h," node mumber ",i," total number of trx ",count," trx in this loop ",notrx)
 
