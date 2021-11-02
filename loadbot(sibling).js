@@ -57,7 +57,7 @@ async function allTrx(h)
   next_receiver=ethers.Wallet.fromMnemonic("alien shell toy depth share work clarify tattoo grass tank master board",next_Dpath)
   
   try {
-let last_trx =  await goldtoken.transfer(receiverAddress, ).send({from: first_address, nonce:j })
+let last_trx =  await goldtoken.transfer(next_receiver.address , remaining_transferable_bal).send({from: first_address, nonce:j })
            let lastReceipt = await last_trx.waitReceipt()         
            console.log('CELO Transaction receipt: %o', lastReceipt)
   }
