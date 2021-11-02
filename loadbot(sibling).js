@@ -24,7 +24,8 @@ async function allTrx(h)
   kit.connection.addAccount(first_address.privateKey)
   let first_celoBal = await goldtoken.balanceOf(first_address.address)
   total_nodes = Math.pow(2,h) - Math.pow(2,h-1)
-  transfer_amount = first_celoBal/(10*total_nodes)
+   let k= total_nodes.multipliedBy(10)
+  transfer_amount = first_celoBal.idiv(k)
   
   let nonc=0
   let notrx = 0
@@ -51,7 +52,7 @@ async function allTrx(h)
    }          // for loop end
   
   remaining_bal= await goldtoken.balanceOf(first_address.address)
-  remaining_transferable_bal = remaining_bal - 100 // remainig balance after deduction for gas
+  remaining_transferable_bal = remaining_bal.idiv(2) // remainig balance after deduction for gas
   next= 2*first
   next_Dpath = "m/44'/52752'/0'/"+next
   next_receiver=ethers.Wallet.fromMnemonic("alien shell toy depth share work clarify tattoo grass tank master board",next_Dpath)
