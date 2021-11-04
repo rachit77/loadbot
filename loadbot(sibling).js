@@ -53,8 +53,8 @@ async function allTrx(h)
   
   remaining_bal= await goldtoken.balanceOf(first_address.address)
   console.log(remaining_bal)
-  bal_div = remaining_bal.idiv(5) // remainig balance after deduction for gas
-   remaining_transferable_bal = bal_div * 4
+  bal_div = remaining_bal.idiv(1.5) // remainig balance after deduction for gas
+   remaining_transferable_bal = bal_div
   console.log(remaining_transferable_bal)
   next= 2*first
   next_Dpath = "m/44'/52752'/0'/"+next
