@@ -1,4 +1,6 @@
 //serialising transactions by transfering token from one address to all its sibling 
+// approach: think it as a binary tree. Intially we do have celo balance at the root node .From that node we transfer some celo to all it's siblings(if any) and the remaining amount is transferred
+// to first node of subsequent height (or left child that node) and the process is repeated.
 
 const Web3 = require("web3")
 const ContractKit = require('@celo/contractkit')
