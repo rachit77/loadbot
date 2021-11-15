@@ -6,8 +6,8 @@ const kit = ContractKit.newKitFromWeb3(web3)
 const ethers = require("ethers");
 
 async function send() {
-    senderPrivateKey='6402ef54e42cd7df71d55e8989c79369913244b6e57f2f3c16d4d9af0619dd22'
-    senderAddress='0xd781a2B6686695B875a6e6BD3b453561A922Afa4'
+    senderPrivateKey='35bfb8ce6916c1d1bf63ce18f36911031e494389b35ce75742b5742044cc97e2'
+    senderAddress='0x30ea7A639CcfeC279A7a18e19263c5e9B10137C6'
 
     const mnemonic ="owner brisk action valid mammal hold use lake calm huge plug leaf"
     Dpath="m/44'/52752'/0'/"+1  //derivation path
