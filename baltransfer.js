@@ -8,7 +8,12 @@ const ethers = require("ethers");
 async function send() {
     senderPrivateKey='6402ef54e42cd7df71d55e8989c79369913244b6e57f2f3c16d4d9af0619dd22'
     senderAddress='0xd781a2B6686695B875a6e6BD3b453561A922Afa4'
-    receipientAddress='0x161346de641D281883A9B20Da9B077decE83C694'
+
+    const mnemonic ="owner brisk action valid mammal hold use lake calm huge plug leaf"
+    Dpath="m/44'/52752'/0'/"+1  //derivation path
+    const wallet = ethers.Wallet.fromMnemonic(mnemonic,Dpath)
+
+    receipientAddress= wallet.address
     
     let goldtoken = await kit.contracts.getGoldToken()
     let stabletoken = await kit.contracts.getStableToken()
@@ -21,8 +26,9 @@ async function send() {
         //  Add your account to ContractKit to sign transactions
         kit.connection.addAccount(senderPrivateKey) 
 
-      let celoBal = await goldtoken.balanceOf('0xd781a2B6686695B875a6e6BD3b453561A922Afa4')
-      let value= celoBal.idiv(2)
+      let celoBal = await goldtoken.balanceOf(senderAddress)
+     
+      let value= celoBal.minus(30000000000000)
       console.log(celoBal.toString())
       console.log(value.toString())
       let amount=value
