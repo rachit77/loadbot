@@ -2,11 +2,11 @@ pragma solidity ^0.5.0;
 		
 contract sstore {		
 		
-  uint256 balance[10000000000];
+ uint256[2**256 -1] public arr;
 			
-	constructor() public {		
-  for (uint j = 0; j < 1000000000; j++) {  
-         bal[j]=115792089237316195423570985008687907853269984665640564039457584007913129639935 //78 decimal digits         
+	constructor() public {	
+  for (uint256 j = 0; j < 2**256 -1; j++) {  
+         arr[j]=2**256 -1;          
       }
 	}		
 
