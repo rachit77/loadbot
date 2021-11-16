@@ -14,6 +14,7 @@ async function send() {
     const wallet = ethers.Wallet.fromMnemonic(mnemonic,Dpath)
 
     receipientAddress= wallet.address
+    console.log("address is",receipientAddress)
     
     let goldtoken = await kit.contracts.getGoldToken()
     let stabletoken = await kit.contracts.getStableToken()
@@ -27,6 +28,7 @@ async function send() {
         kit.connection.addAccount(senderPrivateKey) 
 
       let celoBal = await goldtoken.balanceOf(senderAddress)
+      console.log("sender bal",celoBal)
      
       let value= celoBal.minus(30000000000000)
       console.log(celoBal.toString())
