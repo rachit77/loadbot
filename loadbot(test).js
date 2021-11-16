@@ -33,7 +33,7 @@ const mnemonic="owner brisk action valid mammal hold use lake calm huge plug lea
         
         
            try {
-            let celotrx = goldtoken.transfer(rec, amount).send({from: senderAddress })
+            let celotrx =await goldtoken.transfer(rec, amount).send({from: senderAddress })
             console.log("transaction number ", count, " i is ",i )
             count++;
 
