@@ -16,7 +16,7 @@ async function allTrx()
     
    
     let goldtoken = await kit.contracts.getGoldToken()
-const mnemonic="owner brisk action valid mammal hold use lake calm huge plug leaf"  
+const mnemonic="wood rare tail jump fatigue steel purse art sister fine theme lab"  
   let Dpath="m/44'/52752'/0'/"+1
     const wallet = ethers.Wallet.fromMnemonic(mnemonic,Dpath)
     kit.connection.addAccount(wallet.privateKey)
