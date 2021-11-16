@@ -19,6 +19,10 @@ async function send() {
     let goldtoken = await kit.contracts.getGoldToken()
     let stabletoken = await kit.contracts.getStableToken()
     
+        let celoBalancSender = await goldtoken.balanceOf(senderAddress)
+        console.log(sender bal",celoBalancSender)
+
+    
     let celoBalanc = await goldtoken.balanceOf(receipientAddress)
 
 
