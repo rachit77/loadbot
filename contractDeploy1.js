@@ -24,17 +24,17 @@ async function f(){
 }
 
 async function conc() {
-  const final= await kit.web3.eth.accounts.signTransaction(tx, privateKeysign).then (signed => {
-    kit.web3.eth.sendSignedTransaction(signed.rawTransaction).on('receipt', console.log)
-});
+//   const final= await kit.web3.eth.accounts.signTransaction(tx, privateKeysign).then (signed => {
+//     kit.web3.eth.sendSignedTransaction(signed.rawTransaction).on('receipt', console.log)
+// });
  
  
- //   let tx1= await kit.web3.eth.accounts.signTransaction(tx, privateKeysign);
-// console.log(i)
-// let tx2= await tx1.rawTransaction;
+   let tx1= await kit.web3.eth.accounts.signTransaction(tx, privateKeysign);
+console.log(i)
+let tx2= await tx1.rawTransaction;
 
-// let tx3=await kit.web3.eth.sendSignedTransaction(tx2)
-// console.log(tx3)
+let tx3=await kit.web3.eth.sendSignedTransaction(tx2)
+console.log(tx3)
  
 }
 
