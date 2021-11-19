@@ -1,6 +1,6 @@
 const Web3 = require("web3")
  const ContractKit = require('@celo/contractkit')
- const web3 = new Web3('http://localhost:8545')
+ const web3 = new Web3('http://localhost:8540')
  const kit = ContractKit.newKitFromWeb3(web3)
 // const ethers = require("ethers");
 
@@ -11,27 +11,22 @@ const privateKeysign='6402ef54e42cd7df71d55e8989c79369913244b6e57f2f3c16d4d9af06
 
     const tx={
       from:pubkey,
-      gas:100000,
+      gas:100000000,
       data: bytecode
     };
 
 async function f(){
 
-// for(let i=0;i<100000;i++)
+for(let i=0;i<100000;i++)
 
   await conc();
 
 }
 
 async function conc() {
-//   const final= await kit.web3.eth.accounts.signTransaction(tx, privateKeysign).then (signed => {
-//     kit.web3.eth.sendSignedTransaction(signed.rawTransaction).on('receipt', console.log)
-// });
- 
- 
-   let tx1= await kit.web3.eth.accounts.signTransaction(tx, privateKeysign);
-console.log(i)
-let tx2= await tx1.rawTransaction;
+   let tx2= await kit.web3.eth.accounts.signTransaction(tx, privateKeysign);
+
+
 
 let tx3=await kit.web3.eth.sendSignedTransaction(tx2)
 console.log(tx3)
