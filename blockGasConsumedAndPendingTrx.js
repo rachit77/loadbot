@@ -1,3 +1,4 @@
+js script which logs the gas consumed by each block and pending transactions in txpool 
 const Web3 = require("web3")
 const ContractKit = require('@celo/contractkit')
 const web3 = new Web3('http://localhost:8540')
