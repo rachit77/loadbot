@@ -90,7 +90,7 @@ func Start(ctx context.Context, cfg *Config) error {
 					Recipient:         recipient,
 					Value:             val,
 				}
-				return runTransaction(ctx, client, cfg.ChainID, txCfg)
+				return runTransaction(ctx, client, cfg.ChainID, txCfg, recpIdx)
 			})
 		case <-ctx.Done():
 			return group.Wait()
@@ -98,7 +98,7 @@ func Start(ctx context.Context, cfg *Config) error {
 	}
 }
 
-func runTransaction(ctx context.Context, client *ethclient.Client, chainID *big.Int, txCfg txConfig) error {
+func runTransaction(ctx context.Context, client *ethclient.Client, chainID *big.Int, txCfg txConfig, recpIdx int) error {
 	
   var data []byte
   gasLimit := uint64(21000)
@@ -114,5 +114,6 @@ func runTransaction(ctx context.Context, client *ethclient.Client, chainID *big.
     log.Fatal(err)
   }
 	return err
+	fmt.Printf("recipient index is %v \n",recpIdx)
 }
 
