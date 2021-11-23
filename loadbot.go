@@ -6,13 +6,13 @@ package loadbot
 import (
 	"context"
 	"fmt"
-  "log"
+        "log"
 	"math/big"
 	"sync"
 	"time"
 
 	"github.com/celo-org/celo-blockchain/common"
-  "github.com/celo-org/celo-blockchain/core/types"
+        "github.com/celo-org/celo-blockchain/core/types"
 
 	"github.com/celo-org/celo-blockchain/ethclient"
 	"github.com/celo-org/celo-blockchain/mycelo/env"
