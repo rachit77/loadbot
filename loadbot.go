@@ -27,9 +27,6 @@ type txConfig struct {
 	Nonce             uint64
 	Recipient         common.Address
 	Value             *big.Int
-	Verbose           bool
-	SkipGasEstimation bool
-	MixFeeCurrency    bool
 }
 
 // Config represent the load bot run configuration
@@ -92,9 +89,6 @@ func Start(ctx context.Context, cfg *Config) error {
 					Nonce:             nonce,
 					Recipient:         recipient,
 					Value:             val,
-					Verbose:           cfg.Verbose,
-					SkipGasEstimation: cfg.SkipGasEstimation,
-					MixFeeCurrency:    cfg.MixFeeCurrency,
 				}
 				return runTransaction(ctx, client, cfg.ChainID, txCfg)
 			})
