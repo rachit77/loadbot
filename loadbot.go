@@ -44,6 +44,7 @@ type Config struct {
 // Start will start loads bots
 func Start(ctx context.Context, cfg *Config) error {
 	
+	fmt.Printf("script started \n")
 	val := big.NewInt(100)
 	nonces := make([]uint64, 1000)   //len(cfg.Accounts)
 	flag := 0
@@ -52,6 +53,7 @@ func Start(ctx context.Context, cfg *Config) error {
 		    break
 		}
 		flag++
+		fmt.Printf("i is %v \n",i)
 		nonce, err := cfg.Clients[0].PendingNonceAt(ctx, a.Address)
 		if err != nil {
 			return fmt.Errorf("failed to retrieve pending nonce for account %s: %v", a.Address.String(), err)
@@ -59,7 +61,7 @@ func Start(ctx context.Context, cfg *Config) error {
 		nonces[i] = nonce
 	}
 
-	
+	fmt.Printf("intialization completed \n")
 	recpIdx := 0
 	sendIdx := 0
 
