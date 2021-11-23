@@ -45,8 +45,12 @@ type Config struct {
 func Start(ctx context.Context, cfg *Config) error {
 	
 	val := big.NewInt(100)
-	nonces := make([]uint64, len(cfg.Accounts))
+	nonces := make([]uint64, 1000)   //len(cfg.Accounts)
+	flag := 0
 	for i, a := range cfg.Accounts {
+		if flag>= 1000 {
+		    break
+		}
 		nonce, err := cfg.Clients[0].PendingNonceAt(ctx, a.Address)
 		if err != nil {
 			return fmt.Errorf("failed to retrieve pending nonce for account %s: %v", a.Address.String(), err)
