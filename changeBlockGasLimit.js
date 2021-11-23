@@ -1,4 +1,4 @@
-
+// js script to interact with celo blockchain to change the block gas limit 
 const Web3 = require("web3")
 const ContractKit = require('@celo/contractkit')
 const web3 = new Web3('http://localhost:8540')
