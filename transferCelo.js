@@ -1,4 +1,4 @@
-
+// js script to transafer celo from a particular address to a address present at a given derivation path and mnemonic 
 const Web3 = require("web3")
 const ContractKit = require('@celo/contractkit')
 const web3 = new Web3('http://localhost:8540')
