@@ -1,3 +1,7 @@
+// This is a recursive approach 
+// transactions create a binary tree like structure  where nodes represent address and branch represent transactions
+// every nodes fires 2 transactions , one each to its child node  
+
 const Web3 = require("web3")
 const ContractKit = require('@celo/contractkit')
 const web3 = new Web3('http://localhost:8545')
