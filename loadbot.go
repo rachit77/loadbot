@@ -19,7 +19,7 @@ import (
 	"golang.org/x/sync/errgroup"
 )
 
-var mnemonic ="voyage fiber work thrive such soccer unveil grow state first outdoor cliff" // mnemonic to generate new public address 
+var m ="voyage fiber work thrive such soccer unveil grow state first outdoor cliff" // mnemonic to generate new public address 
 
 // TxConfig contains the options for a transaction
 type txConfig struct {
@@ -65,40 +65,40 @@ func Start(ctx context.Context, cfg *Config) error {
 	group, ctx := errgroup.WithContext(ctx)
 	
 	for {
-		select {
-		case <-ticker.C:
+	    select {
+	    case <-ticker.C:
 			
-      recpointer,err1 := env.DeriveAccount(mnemonic,1,recpIdx)
-      if err1 != nil {
-        log.Fatal(err1)
-      }
+            recpointer,err1 := env.DeriveAccount(m,1,recpIdx)
+            if err1 != nil {
+            log.Fatal(err1)
+           }
       
-      recipient := (*recpointer).Address
-      recpIdx++
+           rec := *recpointer
+           recipient := rec.Address
+           recpIdx++
       
+           sendIdx++
+	   sender := cfg.Accounts[sendIdx%1000 ]                                  //cfg.Accounts[sendIdx%len(cfg.Accounts)]
+	   nonce := nonces[sendIdx%1000]
+	   nonces[sendIdx%1000]++
 
-			sendIdx++
-			sender := cfg.Accounts[sendIdx%1000 ]                                  //cfg.Accounts[sendIdx%len(cfg.Accounts)]
-			nonce := nonces[sendIdx%1000]
-			nonces[sendIdx%1000]++
-
-			client := cfg.Clients[0]
-			group.Go(func() error {
-				txCfg := txConfig{
-					Acc:               sender,
-					Nonce:             nonce,
-					Recipient:         recipient,
-					Value:             val,
-				}
-				return runTransaction(ctx, client, cfg.ChainID, txCfg, recpIdx)
-			})
-		case <-ctx.Done():
-			return group.Wait()
+	   client := cfg.Clients[0]
+	   group.Go(func() error {
+	       txCfg := txConfig{
+		     Acc:               sender,
+		     Nonce:             nonce,
+		     Recipient:         recipient,
+		     Value:             val,
 		}
+		return runTransaction(ctx, client, cfg.ChainID, txCfg, recpIdx)
+	      })
+	case <-ctx.Done():
+	    return group.Wait()
 	}
+    }
 }
 
-func runTransaction(ctx context.Context, client *ethclient.Client, chainID *big.Int, txCfg txConfig, recpIdx int) error {
+func runTransaction(ctx context.Context, Clients *ethclient.Client, chainID *big.Int, txCfg txConfig, recpIdx int) error {
 	
   var data []byte
   gasLimit := uint64(21000)
@@ -113,7 +113,11 @@ func runTransaction(ctx context.Context, client *ethclient.Client, chainID *big.
   if err != nil {
     log.Fatal(err)
   }
-	return err
+	err5:= Clients.SendTransaction(context.Background(), signedTx)
+	if err5 != nil {
+		log.Fatal(err5)
+	}
 	fmt.Printf("recipient index is %v \n",recpIdx)
+        return err
 }
 
