@@ -47,7 +47,8 @@ type Config struct {
 
 // Start will start loads bots
 func Start(ctx context.Context, cfg *Config) error {
-
+	
+	val := big.NewInt(100)
 	nonces := make([]uint64, len(cfg.Accounts))
 	for i, a := range cfg.Accounts {
 		nonce, err := cfg.Clients[0].PendingNonceAt(ctx, a.Address)
@@ -90,7 +91,7 @@ func Start(ctx context.Context, cfg *Config) error {
 					Acc:               sender,
 					Nonce:             nonce,
 					Recipient:         recipient,
-					Value:             cfg.Amount,
+					Value:             val,
 					Verbose:           cfg.Verbose,
 					SkipGasEstimation: cfg.SkipGasEstimation,
 					MixFeeCurrency:    cfg.MixFeeCurrency,
