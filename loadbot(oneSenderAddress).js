@@ -1,4 +1,4 @@
-// sending all the transactions from a single node
+// sending all the transactions from one address
 
 
 const Web3 = require("web3")
