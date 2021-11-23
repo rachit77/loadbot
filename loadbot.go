@@ -19,9 +19,6 @@ import (
 	"golang.org/x/sync/errgroup"
 )
 
-// 110k gas for stable token transfer is pretty reasonable. It's just under 100k in practice
-const GasForTransferWithComment = 110000
-
 var mnemonic ="" // mnemonic to generate new public address 
 
 // TxConfig contains the options for a transaction
@@ -83,9 +80,9 @@ func Start(ctx context.Context, cfg *Config) error {
       
 
 			sendIdx++
-			sender := cfg.Accounts[sendIdx%len(cfg.Accounts)]
-			nonce := nonces[sendIdx%len(cfg.Accounts)]
-			nonces[sendIdx%len(cfg.Accounts)]++
+			sender := cfg.Accounts[sendIdx%1000 ]                                  //cfg.Accounts[sendIdx%len(cfg.Accounts)]
+			nonce := nonces[sendIdx%1000]
+			nonces[sendIdx%1000]++
 
 			client := cfg.Clients[0]
 			group.Go(func() error {
