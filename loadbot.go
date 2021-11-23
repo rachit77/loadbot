@@ -8,7 +8,6 @@ import (
 	"fmt"
         "log"
 	"math/big"
-	"sync"
 	"time"
 
 	"github.com/celo-org/celo-blockchain/common"
@@ -109,8 +108,8 @@ func runTransaction(ctx context.Context, Clients *ethclient.Client, chainID *big
   
   tx:= types.NewTransaction(txCfg.Nonce, txCfg.Recipient, txCfg.Value, gasLimit, gasPrice,nil, nil, nil, data)
   
-  signedTx, err := types.SignTx(tx, types.NewEIP155Signer(chainId), txCfg.Acc.PrivateKey)
-  if err != nil {
+  signedTx, err4 := types.SignTx(tx, types.NewEIP155Signer(chainID), txCfg.Acc.PrivateKey)
+  if err4 != nil {
     log.Fatal(err)
   }
 	err5:= Clients.SendTransaction(context.Background(), signedTx)
@@ -118,6 +117,6 @@ func runTransaction(ctx context.Context, Clients *ethclient.Client, chainID *big
 		log.Fatal(err5)
 	}
 	fmt.Printf("recipient index is %v \n",recpIdx)
-        return err
+        return err5
 }
 
