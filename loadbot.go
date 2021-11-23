@@ -19,7 +19,7 @@ import (
 	"golang.org/x/sync/errgroup"
 )
 
-var mnemonic ="" // mnemonic to generate new public address 
+var mnemonic ="voyage fiber work thrive such soccer unveil grow state first outdoor cliff" // mnemonic to generate new public address 
 
 // TxConfig contains the options for a transaction
 type txConfig struct {
